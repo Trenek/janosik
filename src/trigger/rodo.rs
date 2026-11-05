@@ -1,5 +1,4 @@
 use crate::trigger::Trigger;
-use simsearch::SimSearch;
 
 // todo: read triggers from database
 pub struct Rodo;
@@ -24,21 +23,13 @@ p.niemiec"#
     }
 
     fn frequency() -> i32 {
-        1
+        10
     }
 
     fn contains_trigger(content: &str) -> bool {
         const TRIGGER_WORDS: &[&str] = &["nagrywa", "nagra", "absurd", "tokarczyk"];
-        let mut engine: SimSearch<u32> = SimSearch::new();
         let content = content.to_lowercase();
-        engine.insert(1, &content);
 
-        for &word in TRIGGER_WORDS {
-            if !engine.search(word).is_empty() {
-                return true;
-            }
-        }
-
-        false
+        TRIGGER_WORDS.iter().any(|&word| content.contains(word))
     }
 }
